@@ -1,3 +1,3 @@
-bucket = "bpk-terra-state"
-    key    = "test/terraform.tfstate"
-    region = "us-east-1"
+ bucket = "bpk-terra-state"
+ key    = "expense/dev/terraform.tfstate"
+region = "us-east-1"
