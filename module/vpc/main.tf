@@ -51,6 +51,7 @@ resource "aws_route_table" "public" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   }
+  ##peering connection not required for db $ public bz no instances in public & rds instead of mysql servers
   route {
     cidr_block = var.default_vpc_cidr_id
     vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
@@ -90,6 +91,7 @@ resource "aws_route_table" "db" {
     cidr_block = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.ngw.id
   }
+  ##peering connection not required for db $ public bz no instances in public & rds instead of mysql servers
   route {
     cidr_block = var.default_vpc_cidr_id
     vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
