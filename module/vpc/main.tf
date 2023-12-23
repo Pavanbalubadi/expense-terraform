@@ -56,6 +56,10 @@ resource "aws_route_table" "public" {
 resource "aws_route_table" "app" {
   vpc_id = aws_vpc.main.id
   tags = merge(var.tags, {Name="app"})
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.ngw.id
+  }
 }
 
 resource "aws_route_table" "web" {
@@ -101,7 +105,7 @@ resource "aws_internet_gateway" "igw" {
 resource "aws_eip" "ngw" {
   domain   = "vpc"
 }
-resource "aws_nat_gateway" "example" {
+resource "aws_nat_gateway" "ngw" {
   allocation_id = aws_eip.ngw.id
   subnet_id     = aws_subnet.public.*.id[0]
 }
