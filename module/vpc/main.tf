@@ -2,6 +2,7 @@ resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr_block
   tags       = merge(var.tags, {Name=var.env})
 }
+## These subnet block needs improvement in terms of code dry.
 resource "aws_subnet" "main" {
   count      = length(var.public_subnets)
   vpc_id     = aws_vpc.main.id
