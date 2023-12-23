@@ -42,3 +42,24 @@ resource "aws_subnet" "db" {
   tags       = merge(var.tags, {Name="db_subnets"})
   availability_zone = var.azs[count.index]
 }
+##creating route tables
+
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+  tags = merge(var.tags, {Name="public"})
+}
+
+resource "aws_route_table" "app" {
+  vpc_id = aws_vpc.main.id
+  tags = merge(var.tags, {Name="app"})
+}
+
+resource "aws_route_table" "web" {
+  vpc_id = aws_vpc.main.id
+  tags = merge(var.tags, {Name="web"})
+}
+
+resource "aws_route_table" "db" {
+  vpc_id = aws_vpc.main.id
+  tags = merge(var.tags, {Name="db"})
+}
