@@ -53,6 +53,15 @@ resource "aws_route_table" "public" {
   }
 }
 
+resource "aws_route_table" "web" {
+  vpc_id = aws_vpc.main.id
+  tags = merge(var.tags, {Name="web"})
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.ngw.id
+  }
+}
+
 resource "aws_route_table" "app" {
   vpc_id = aws_vpc.main.id
   tags = merge(var.tags, {Name="app"})
@@ -62,14 +71,13 @@ resource "aws_route_table" "app" {
   }
 }
 
-resource "aws_route_table" "web" {
-  vpc_id = aws_vpc.main.id
-  tags = merge(var.tags, {Name="web"})
-}
-
 resource "aws_route_table" "db" {
   vpc_id = aws_vpc.main.id
   tags = merge(var.tags, {Name="db"})
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.ngw.id
+  }
 }
 #aws_route_table_association
 resource "aws_route_table_association" "public" {
