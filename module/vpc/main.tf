@@ -117,3 +117,9 @@ resource "aws_nat_gateway" "ngw" {
   allocation_id = aws_eip.ngw.id
   subnet_id     = aws_subnet.public.*.id[0]
 }
+## vpc peering connection
+resource "aws_vpc_peering_connection" "foo" {
+  peer_owner_id = var.account_id
+  peer_vpc_id   = var.default_vpc_id
+  vpc_id        = aws_vpc.main.id
+}
