@@ -17,4 +17,12 @@ module "vpc" {
 module "rds" {
   source          = "./module/rds"
   subnets = module.vpc.db_subnets
+  env                   = var.env
+  rds_allocated_storage = var.rds_allocated_storage
+  rds_engine            = var.rds_engine
+  rds_engine_version    = var.rds_engine_version
+  rds_instance_class    = var.rds_instance_class
+  sg_cidrs              = var.sg_cidrs
+  tags                  = var.tags
+  vpc_id                = var.vpc_id
 }
