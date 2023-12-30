@@ -1,7 +1,12 @@
 resource "aws_db_parameter_group" "main" {
-  name   = "${var.env}-mysql-rds"
-  family = "mysql5.7"
-  tags = merge(var.tags, {Name ="${var.env}-mysql-rds"})
+  name        = "${var.env}-mysql-rds"
+  family      = "mysql5.7"
+  tags        = merge(var.tags, {Name ="${var.env}-mysql-rds"})
+}
+resource "aws_db_subnet_group" "main" {
+  name       = "${var.env}-mysql-rds"
+  subnet_ids = var.subnets
+  tags       = merge(var.tags, {Name ="${var.env}-mysql-rds"})
 }
 
 resource "aws_db_instance" "main" {
@@ -17,8 +22,9 @@ resource "aws_db_instance" "main" {
   multi_az             = file() ##(for me )
   identifier           = "${var.env}-mysql-rds"
   storage_type         = "gp3"
+  tags                 = merge(var.tags, {Name ="${var.env}-mysql-rds"})
 }
-
+variable "subnets" {}
 
 
 

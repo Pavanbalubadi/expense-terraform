@@ -13,3 +13,8 @@ module "vpc" {
   default_route_table_id = var.default_route_table_id
   default_vpc_cidr_id =var.default_vpc_cidr_id
 }
+
+module "rds" {
+  source          = "./module/rds"
+  su
+}
