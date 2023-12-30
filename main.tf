@@ -16,5 +16,5 @@ module "vpc" {
 
 module "rds" {
   source          = "./module/rds"
-  su
+  subnets = module.vpc.db_subnets
 }
