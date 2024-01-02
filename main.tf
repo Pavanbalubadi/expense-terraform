@@ -37,5 +37,6 @@ module "backend" {
   subnets=module.vpc.app_subnets ## output from vpc module
   tags=var.tags
   vpc_id=module.vpc.vpc_id ## output from vpc module
+  bastion_cidrs =var.bastion_cidrs
 }
 
