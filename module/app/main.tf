@@ -33,9 +33,12 @@ resource "aws_launch_template" "main" {
   image_id      = data.aws_ami.ami.image_id
   instance_type = var.instance_type
   vpc_security_group_ids = [aws_security_group.main.id]
+  user_data = filebase64("${path.module}/userdata.sh")
 }
 
+
 resource "aws_autoscaling_group" "main" {
+  name = "${var.env}-${var.component}"
   desired_capacity   = var.instance_count
   max_size           = var.instance_count + 5
   min_size           = var.instance_count
