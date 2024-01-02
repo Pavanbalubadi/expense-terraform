@@ -21,3 +21,10 @@ allocated_storage    = 20
 engine               = "mysql"
 engine_version       = "5.7.44"
 instance_class       = "db.t3.micro"
+
+##app
+backend = {
+    app_port = 8080
+    instance_count =1
+    instance_type = "t2.micro"
+}
