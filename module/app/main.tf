@@ -103,77 +103,32 @@ resource "aws_iam_role" "test_role" {
             "arn:aws:ssm:us-east-1:955993398443:parameter/backend.dev.DB_HOST"
           ]
         },
-
-    })
-  }
-}
-
-##
-resource "aws_iam_role" "main" {
-  name = "${var.env}-${var.component}"
-  tags = merge(var.tags, { Name = "${var.env}-${var.component}" })
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-
-  inline_policy {
-    name = "SSM-Read-Access"
-
-    policy = jsonencode({
-      "Version" : "2012-10-17",
-      "Statement" : [
         {
-          "Sid" : "GetResources",
-          "Effect" : "Allow",
-          "Action" : [
-            "ssm:GetParameterHistory",
-            "ssm:GetParametersByPath",
-            "ssm:GetParameters",
-            "ssm:GetParameter"
-          ],
-          "Resource" : [
-            "arn:aws:ssm:us-east-1:633788536644:parameter/${var.env}.${var.component}.*",
-            "arn:aws:ssm:us-east-1:633788536644:parameter/newrelic.licence_key",
-            "arn:aws:ssm:us-east-1:633788536644:parameter/${var.env}.rds.*",
-            "arn:aws:ssm:us-east-1:633788536644:parameter/grafana.api_key",
-            "arn:aws:ssm:us-east-1:633788536644:parameter/jenkins.*",
-            "arn:aws:ssm:us-east-1:633788536644:parameter/artifactory.*"
-          ]
+          "Sid": "ListParameters",
+          "Effect": "Allow",
+          "Action": "ssm:DescribeParameters",
+          "Resource": "*"
         },
         {
-          "Sid" : "ListResources",
-          "Effect" : "Allow",
-          "Action" : "ssm:DescribeParameters",
-          "Resource" : "*"
-        },
-        {
-          "Sid" : "S3UploadForPrometheusAlerts",
-          "Effect" : "Allow",
-          "Action" : [
-            "s3:GetObject",
-            "s3:ListBucket",
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": [
             "s3:PutObject",
+            "s3:GetObjectAcl",
+            "s3:GetObject",
             "s3:DeleteObjectVersion",
-            "s3:DeleteObject"
+            "s3:PutObjectVersionAcl",
+            "s3:GetObjectAttributes",
+            "s3:ListBucket",
+            "s3:DeleteObject",
+            "s3:PutObjectAcl"
           ],
-          "Resource" : [
-            "arn:aws:s3:::d76-prometheus-alert-rules/*",
-            "arn:aws:s3:::d76-prometheus-alert-rules"
+          "Resource": [
+            "arn:aws:s3:::bpk-prometheus-alerts",
+            "arn:aws:s3:::bpk-prometheus-alerts/*"
           ]
         }
       ]
     })
   }
-
 }
