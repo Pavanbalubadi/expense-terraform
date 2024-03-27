@@ -41,23 +41,12 @@ resource "aws_db_instance" "main" {
   password             = data.aws_ssm_parameter.password.value
   parameter_group_name = aws_db_parameter_group.main.name
   skip_final_snapshot  = true
-  multi_az             = file() ##(for me )
+  multi_az             = true
   identifier           = "${var.env}-mysql-rds"
   storage_type         = "gp3"
   tags                 = merge(var.tags, {Name ="${var.env}-mysql-rds"})
   db_subnet_group_name = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.main.id]
-}
-resource "aws_db_instance" "default" {
-  allocated_storage    = 10
-  db_name              = "mydb"
-  engine               = "mysql"
-  engine_version       = "5.7"
-  instance_class       = "db.t3.micro"
-  username             = "foo"
-  password             = "foobarbaz"
-  parameter_group_name = "default.mysql5.7"
-  skip_final_snapshot  = true
 }
 
 
