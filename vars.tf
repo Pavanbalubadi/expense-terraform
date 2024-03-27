@@ -18,3 +18,4 @@ variable "rds_instance_class" {}
 ## app
 variable "backend" {}
 variable "bastion_cidrs" {}
+variable "frontend" {}

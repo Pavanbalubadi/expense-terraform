@@ -33,8 +33,22 @@ module "backend" {
   env=var.env
   instance_count=var.backend["instance_count"]
   instance_type=var.backend["instance_type"]
-  sg_cidrs=var.web_subnets
+  sg_cidrs=var.web_subnets # application is accessible for weblayber
   subnets=module.vpc.app_subnets ## output from vpc module
+  tags=var.tags
+  vpc_id=module.vpc.vpc_id ## output from vpc module
+  bastion_cidrs =var.bastion_cidrs
+}
+
+module "frontend" {
+  source="./module/app"
+  app_port=var.frontend["app_port"]
+  component="frontend"
+  env=var.env
+  instance_count=var.frontend["instance_count"]
+  instance_type=var.frontend["instance_type"]
+  sg_cidrs=var.public_subnets # application is accessible for public
+  subnets=module.vpc.web_subnets ## output from vpc module
   tags=var.tags
   vpc_id=module.vpc.vpc_id ## output from vpc module
   bastion_cidrs =var.bastion_cidrs
