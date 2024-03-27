@@ -33,13 +33,12 @@ resource "aws_launch_template" "main" {
   image_id                = data.aws_ami.ami.image_id
   instance_type           = var.instance_type
   vpc_security_group_ids  = [aws_security_group.main.id]
-  tags       = merge(var.tags, {Name ="${var.env}-${var.component}"})
+  tags                    = merge(var.tags, {Name ="${var.env}-${var.component}"})
   user_data               = base64encode(templatefile("${path.module}/userdata.sh", {
    role_name =var.component
     env      =var.env
   } ))
 }
-
 
 resource "aws_autoscaling_group" "main" {
   name = "${var.env}-${var.component}"
@@ -47,6 +46,7 @@ resource "aws_autoscaling_group" "main" {
   max_size           = var.instance_count + 5
   min_size           = var.instance_count
   vpc_zone_identifier = var.subnets
+  target_group_arns = [aws_lb_target_group.main.arn]
 
   launch_template {
     id      = aws_launch_template.main.id
@@ -63,11 +63,16 @@ resource "aws_autoscaling_group" "main" {
     value               = "true"
     propagate_at_launch = true
   }
-
-
 }
 
-resource "aws_iam_role" "test_role" {
+resource "aws_lb_target_group" "main" {
+  name        = "${var.env}-${var.component}"
+  port        = var.app_port
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
+}
+
+resource "aws_iam_role" "main" {
   name        = "${var.env}-${var.component}"
   tags        = merge(var.tags, {Name ="${var.env}-${var.component}"})
 
@@ -110,7 +115,7 @@ resource "aws_iam_role" "test_role" {
           "Resource": "*"
         },
         {
-          "Sid": "VisualEditor0",
+          "Sid": "S3UploadForPrometheusAlerts",
           "Effect": "Allow",
           "Action": [
             "s3:PutObject",
@@ -132,3 +137,10 @@ resource "aws_iam_role" "test_role" {
     })
   }
 }
+
+
+resource "aws_iam_instance_profile" "main" {
+  name = "${var.env}-${var.component}"
+  role = aws_iam_role.main.name
+}
+
