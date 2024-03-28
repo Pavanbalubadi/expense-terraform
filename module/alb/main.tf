@@ -1,6 +1,6 @@
 resource "aws_security_group" "main" {
-  name        = "${var.env}-${var.component}"
-  description = "${var.env}-${var.component}"
+  name        = "${var.env}-${var.component}-alb"
+  description = "${var.env}-${var.component}-alb"
   vpc_id      = var. vpc_id
 
   ingress {
@@ -22,7 +22,7 @@ resource "aws_security_group" "main" {
 }
 resource "aws_lb" "main" {
   name               = "${var.env}-${var.component}"
-  internal           = true
+  internal           = var.internal
   load_balancer_type = "application"
   security_groups    = [aws_security_group.main.id]
   subnets            = var.subnets
@@ -43,18 +43,11 @@ resource "aws_lb_listener" "main" {
 
 resource "aws_route53_record" "main" {
   zone_id       = aws_route53_zone_id
-  name          = "www"
+  name          = "${var.env}-${var.component}"
   type          = "CNAME"
   ttl           = 5
   records       = [aws_lb.main.id.dns_name]
 }
-variable "env" {}
-variable "component" {}
-variable "vpc_id" {}
-variable "port" {}
-variable "sg_cidrs" {}
-variable "tags" {}
-variable "subnets" {}
-variable "target_group_arn" {}
+
 
 
