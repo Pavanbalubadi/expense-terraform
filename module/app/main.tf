@@ -29,17 +29,31 @@ resource "aws_security_group" "main" {
 }
 
 resource "aws_launch_template" "main" {
-  name_prefix             = "${var.env}-${var.component}"
-  image_id                = data.aws_ami.ami.image_id
-  instance_type           = var.instance_type
-  vpc_security_group_ids  = [aws_security_group.main.id]
-  tags                    = merge(var.tags, {Name ="${var.env}-${var.component}"})
-  user_data               = base64encode(templatefile("${path.module}/userdata.sh", {
-   role_name =var.component
-    env      =var.env
+  name_prefix            = "${var.env}-${var.component}"
+  image_id               = data.aws_ami.ami.image_id
+  instance_type          = var.instance_type
+  vpc_security_group_ids = [aws_security_group.main.id]
+  tags                   = merge(var.tags, { Name = "${var.env}-${var.component}" })
+  user_data              = base64encode(templatefile("${path.module}/userdata.sh", {
+    role_name = var.component
+    env       = var.env
   } ))
-}
 
+  iam_instance_profile {
+    name = aws_iam_instance_profile.main.name
+  }
+
+  block_device_mappings {
+    device_name = "/dev/sda1"
+
+    ebs {
+      volume_size = 10
+      encrypted = true
+      kms_key_id = var.kms_key
+      delete_on_termination = true
+    }
+  }
+}
 resource "aws_autoscaling_group" "main" {
   name = "${var.env}-${var.component}"
   desired_capacity   = var.instance_count
