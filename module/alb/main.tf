@@ -75,7 +75,6 @@ resource "aws_route53_record" "main" {
   name          = "${var.env}-${var.component}"
   type          = "CNAME"
   ttl           = 5
-  records       = [aws_lb.main.id.dns_name]
 }
 
 
