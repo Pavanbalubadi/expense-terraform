@@ -7,6 +7,8 @@ variable "tags" {}
 variable "subnets" {}
 variable "target_group_arn" {}
 variable "internal" {}
+variable "enable_https" {}
+variable "certificate_arn" {}
 variable "dns_name" {
   default = null
 }
