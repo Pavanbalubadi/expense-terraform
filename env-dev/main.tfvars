@@ -24,8 +24,9 @@ instance_class       = "db.t3.micro"
 
 ##app
 backend = {
-    app_port = 8080
-    instance_count =1
-    instance_type = "t2.micro"
+  app_port = 8080
+  instance_count =1
+  instance_type = "t2.micro"
 }
 bastion_cidrs = ["172.31.2.164/32"]
+
