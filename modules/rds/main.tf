@@ -40,8 +40,8 @@ resource "aws_db_instance" "main" {
   engine                 = var.rds_engine
   engine_version         = var.rds_ngine_version
   instance_class         = var.rds_instance_class
-  username               = aws_ssm_parameter.username.value
-  password               = aws_ssm_parameter.password.value
+  username               = data.aws_ssm_parameter.username.value
+  password               = data.aws_ssm_parameter.password.value
   parameter_group_name   = aws_db_parameter_group.main.name
   tags                   = merge(var.tags, { Name = "${var.env}-msql-rds" })
   skip_final_snapshot    = true
