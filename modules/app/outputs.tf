@@ -1,3 +1,3 @@
 output "target_group_arn" {
-  value = aws_
+  value = aws_lb_target_group.main.arn
 }
