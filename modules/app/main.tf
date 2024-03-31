@@ -100,7 +100,7 @@ resource "aws_lb_target_group" "main" {
   }
 }
 
-resource "aws_iam_role" "test_role" {
+resource "aws_iam_role" "main" {
   name = "${var.env}-${var.component}"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -171,4 +171,9 @@ resource "aws_iam_role" "test_role" {
       ]
     })
   }
+}
+
+resource "aws_iam_instance_profile" "main" {
+  name = "${var.env}-${var.component}"
+  role = aws_iam_role.main.name
 }
