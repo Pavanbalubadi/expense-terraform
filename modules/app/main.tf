@@ -64,7 +64,7 @@ resource "aws_autoscaling_group" "main" {
   max_size            = var.instance_count +4
   min_size            = var.instance_count
   vpc_zone_identifier = var.subnets
-  target_group_arns   = [aws_alb]
+  target_group_arns   = [aws_lb_target_group.main.arn]
 
   launch_template {
     id      = aws_launch_template.main.id
@@ -97,5 +97,53 @@ resource "aws_lb_target_group" "main" {
     matcher             = 200
     path                = "/health"
     timeout             = 2
+  }
+}
+
+resource "aws_iam_role" "test_role" {
+  name = "${var.env}-${var.component}"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+
+  tags                   = merge(var.tags, { Name = "${var.env}-${var.component}" })
+
+
+  inline_policy {
+    name = "SSM-Read-Access"
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": [
+            "ssm:GetParameterHistory",
+            "ssm:GetParametersByPath",
+            "ssm:GetParameters",
+            "ssm:GetParameter"
+          ],
+          "Resource":[
+             "arn:aws:ssm:us-east-1:955993398443:parameter/${var.env}.${var.component}.*",
+             "arn:aws:ssm:us-east-1:955993398443:parameter/NEW_RELIC_API_KEY",
+             "arn:aws:ssm:us-east-1:955993398443:parameter/grafana_api_key",
+             "arn:aws:ssm:us-east-1:955993398443:parameter/${var.env}.rds.*",
+            "arn:aws:ssm:us-east-1:955993398443:parameter/jenkins.*"
+
+            ]
+        },
+      ]
+    })
   }
 }
