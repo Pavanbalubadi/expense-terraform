@@ -43,6 +43,11 @@ resource "aws_route_table" "public" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   }
+  ## db and public subnets not required peering connection for uniform
+  route {
+    cidr_block           = var.default_route_table_id
+    vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
+  }
 }
 
 resource "aws_route_table" "web" {
@@ -52,6 +57,10 @@ resource "aws_route_table" "web" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_nat_gateway.ngw.id
+  }
+  route {
+    cidr_block           = var.default_route_table_id
+    vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
   }
 }
 
@@ -63,6 +72,10 @@ resource "aws_route_table" "app" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_nat_gateway.ngw.id
   }
+  route {
+    cidr_block           = var.default_route_table_id
+    vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
+  }
 }
 
 resource "aws_route_table" "db" {
@@ -72,6 +85,11 @@ resource "aws_route_table" "db" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_nat_gateway.ngw.id
+  }
+
+  route {
+    cidr_block           = var.default_route_table_id
+    vpc_peering_connection_id = aws_vpc_peering_connection.peer.id
   }
 }
 
