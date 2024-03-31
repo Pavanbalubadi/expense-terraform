@@ -10,3 +10,9 @@ variable "default_route_table_id" {}
 
 ##rds
 variable "subnets" {}
+variable "sg_cidrs" {}
+variable "kms_key" {}
+variable "rds_allocated_storage" {}
+variable "rds_engine" {}
+variable "rds_instance_class" {}
+variable "rds_engine_version" {}

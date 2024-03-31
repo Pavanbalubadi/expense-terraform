@@ -13,11 +13,16 @@ module "vpc" {
 }
 
 module"rds" {
-
   source   = "./modules/rds"
   env      = var.env
   subnets  = var.subnets
   tags     = var.tags
-  sg_cidrs = ""
+  sg_cidrs = var.sg_cidrs
   vpc_id   = module.vpc.vpc_id
+  kms_key  = var.kms_key
+  rds_allocated_storage = var.rds_allocated_storage
+  rds_engine = var.rds_engine
+  rds_instance_class = var.rds_instance_class
+  rds_engine_version = var.rds_engine_version
 }
+
