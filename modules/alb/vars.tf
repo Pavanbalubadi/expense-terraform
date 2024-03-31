@@ -7,3 +7,4 @@ variable "tags" {}
 variable "internal" {}
 variable "subnets" {}
 variable "target_group_arn" {}
+variable "certificate_arn" {}
