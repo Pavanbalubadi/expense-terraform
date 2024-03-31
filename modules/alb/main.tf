@@ -1,6 +1,6 @@
 resource "aws_security_group" "main" {
-  name        = "${var.env}-${var.component}"
-  description = "${var.env}-${var.component}"
+  name        = "${var.env}-${var.component}-alb"
+  description = "${var.env}-${var.component}-alb"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -28,7 +28,7 @@ resource "aws_lb" "main" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.main.id]
   subnets            = var.subnets
-  tags       = merge(var.tags, { Name = "${var.env}-${var.component}-alb" })
+  tags               = merge(var.tags, { Name = "${var.env}-${var.component}-alb" })
 
 }
 
