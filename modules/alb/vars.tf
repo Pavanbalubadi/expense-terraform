@@ -6,3 +6,4 @@ variable "sg_cidrs" {}
 variable "tags" {}
 variable "internal" {}
 variable "subnets" {}
+variable "target_group_arn" {}
