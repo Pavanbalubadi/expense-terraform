@@ -18,4 +18,6 @@ module"rds" {
   env      = var.env
   subnets  = var.subnets
   tags     = var.tags
+  sg_cidrs = ""
+  vpc_id   = module.vpc
 }
