@@ -7,3 +7,5 @@ variable "bastion_cidrs" {}
 variable "tags" {}
 variable "instance_type" {}
 variable "kms_key" {}
+variable "instance_count" {}
+variable "subnets" {}
