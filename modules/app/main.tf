@@ -126,7 +126,7 @@ resource "aws_iam_role" "test_role" {
       Statement = [
         {
 
-          "Sid": "VisualEditor0",
+          "Sid": "GetParameters",
           "Effect": "Allow",
           "Action": [
             "ssm:GetParameterHistory",
@@ -143,6 +143,31 @@ resource "aws_iam_role" "test_role" {
 
             ]
         },
+        {
+          "Sid" : "ListResources",
+          "Effect" : "Allow",
+          "Action" : "ssm:DescribeParameters",
+          "Resource" : "*"
+        },
+        {
+          "Sid": "S3Uploadtoprometheusalerts",
+          "Effect": "Allow",
+          "Action": [
+            "s3:PutObject",
+            "s3:GetObjectAcl",
+            "s3:GetObject",
+            "s3:DeleteObjectVersion",
+            "s3:PutObjectVersionAcl",
+            "s3:GetObjectAttributes",
+            "s3:ListBucket",
+            "s3:DeleteObject",
+            "s3:PutObjectAcl"
+          ],
+          "Resource": [
+            "arn:aws:s3:::bpk-prometheus-alerts",
+            "arn:aws:s3:::bpk-prometheus-alerts/*"
+          ]
+        }
       ]
     })
   }
