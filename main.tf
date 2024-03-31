@@ -8,4 +8,6 @@ module "vpc" {
   db_subnets = var.db_subnets
   public_subnets = var.public_subnets
   web_subnets = var.web_subnets
+  account_id = var.account_id
+  default_route_table_id = var.default_route_table_id
 }
