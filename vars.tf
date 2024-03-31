@@ -19,6 +19,8 @@ variable "rds_engine_version" {}
 
 ##backend(app)
 variable "app_port" {}
+variable "frontend" {}
+variable "backend" {}
 variable "bastion_cidrs" {}
 variable "component" {}
 variable "instance_count" {}

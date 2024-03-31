@@ -29,12 +29,12 @@ module"rds" {
 module"backend"{
 
   source = "./modules/app"
-  app_port = var.app_port
+  app_port = var.backend["app_port"]
   bastion_cidrs = var.bastion_cidrs
   component = var.component
   env = var.env
-  instance_count = var.instance_count
-  instance_type = var.instance_type
+  instance_count = var.backend["instance_count"]
+  instance_type = var.backend["instance_type"]
   kms_key = var.kms_key
   sg_cidrs = var.sg_cidrs
   subnets = var.subnets
@@ -42,3 +42,17 @@ module"backend"{
   vpc_id = module.vpc.vpc_id
 }
 
+module"frontend"{
+  source = "./modules/app"
+  app_port = var.frontend["app_port"]
+  bastion_cidrs = var.bastion_cidrs
+  component = var.component
+  env = var.env
+  instance_count = var.frontend["instance_count"]
+  instance_type = var.frontend["instance_type"]
+  kms_key = var.kms_key
+  sg_cidrs = var.sg_cidrs
+  subnets = var.subnets
+  tags = var.tags
+  vpc_id = module.vpc.vpc_id
+}
