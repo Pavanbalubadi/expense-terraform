@@ -30,3 +30,27 @@ resource "aws_security_group" "main" {
   tags       = merge(var.tags, { Name = "${var.env}-${var.component}" })
 }
 
+resource "aws_launch_template" "main" {
+  Name                   = "${var.env}-${var.component}"
+  image_id               = data.aws_ami.ami.image_id
+  instance_type          = var.instance_type
+  vpc_security_group_ids = [aws_security_group.main.id]
+  tags                   = merge(var.tags, { Name = "${var.env}-${var.component}" })
+
+  iam_instance_profile {
+    name = aws_launch_template.main.name
+  }
+
+  block_device_mappings {
+    device_name = "/dev/sda1"
+
+    ebs {
+      volume_size           = 10
+      encrypted             = true
+      kms_key_id            = var.kms_key
+      delete_on_termination = true
+    }
+  }
+
+}
+
