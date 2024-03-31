@@ -27,5 +27,6 @@ resource "aws_security_group" "main" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags       = merge(var.tags, { Name = "${var.env}-msql-rds" })
+  tags       = merge(var.tags, { Name = "${var.env}-${var.component}" })
 }
+
