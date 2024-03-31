@@ -29,6 +29,7 @@ resource "aws_lb" "main" {
   security_groups    = [aws_security_group.main.id]
   subnets            = var.subnets
   tags       = merge(var.tags, { Name = "${var.env}-${var.component}-alb" })
+
 }
 
 resource "aws_lb_listener" "main" {
@@ -72,5 +73,6 @@ resource "aws_lb_listener" "http" {
     }
   }
 }
+
 
 
