@@ -26,3 +26,19 @@ module"rds" {
   rds_engine_version = var.rds_engine_version
 }
 
+module"backend"{
+
+  source = "./modules/app"
+  app_port = var.app_port
+  bastion_cidrs = var.bastion_cidrs
+  component = var.component
+  env = var.env
+  instance_count = var.instance_count
+  instance_type = var.instance_type
+  kms_key = var.kms_key
+  sg_cidrs = var.sg_cidrs
+  subnets = var.subnets
+  tags = var.tags
+  vpc_id = module.vpc.vpc_id
+}
+

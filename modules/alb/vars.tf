@@ -9,3 +9,4 @@ variable "subnets" {}
 variable "target_group_arn" {}
 variable "certificate_arn" {}
 variable "enable_https" {}
+variable "route53_zone_id" {}

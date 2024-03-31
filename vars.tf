@@ -16,3 +16,10 @@ variable "rds_allocated_storage" {}
 variable "rds_engine" {}
 variable "rds_instance_class" {}
 variable "rds_engine_version" {}
+
+##backend(app)
+variable "app_port" {}
+variable "bastion_cidrs" {}
+variable "component" {}
+variable "instance_count" {}
+variable "instance_type" {}
