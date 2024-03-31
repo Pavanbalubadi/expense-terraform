@@ -56,3 +56,34 @@ module"frontend"{
   tags = var.tags
   vpc_id = module.vpc.vpc_id
 }
+
+module"public-alb"{
+  source = "./modules/alb"
+  certificate_arn = var.certificate_arn
+  component = var.public-alb["component"]
+  enable_https = var.public-alb["enable_https"]
+  env = var.env
+  internal = var.public-alb["internal"]
+  lb_port = var.public-alb["lb_port"]
+  route53_zone_id = var.route53_zone_id
+  sg_cidrs = ["0.0.0.0/0"]
+  subnets = var.public_subnets
+  tags = var.tags
+  target_group_arn = module.frontend.target_group_arn
+  vpc_id = module.vpc.vpc_id
+}
+module "backend-alb" {
+  source = "./modules/app"
+  app_port = var.backend-alb["app_port"]
+  bastion_cidrs = var.bastion_cidrs
+  component = var.backend-alb["component"]
+  env = var.env
+  instance_count = var.backend-alb["instance_count"]
+  instance_type = var.backend-alb["instance_type "]
+  kms_key = var.kms_key
+  sg_cidrs = var.web_subnets
+  subnets = module.vpc.app_subnets
+  tags = var.tags
+  vpc_id = module.vpc.vpc_id
+}
+

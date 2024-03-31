@@ -21,7 +21,12 @@ variable "rds_engine_version" {}
 variable "app_port" {}
 variable "frontend" {}
 variable "backend" {}
+variable "public-alb" {}
+variable "backend-alb" {}
 variable "bastion_cidrs" {}
 variable "component" {}
 variable "instance_count" {}
 variable "instance_type" {}
+
+variable "certificate_arn" {}
+variable "route53_zone_id" {}
