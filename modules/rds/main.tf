@@ -33,3 +33,23 @@ resource "aws_security_group" "main" {
 
   tags       = merge(var.tags, { Name = "${var.env}-msql-rds" })
 }
+
+resource "aws_db_instance" "main" {
+  allocated_storage     = var.rds_allocated_storage
+  db_name                = "mydb"
+  engine                 = var.rds_engine
+  engine_version         = var.rds_ngine_version
+  instance_class         = var.rds_instance_class
+  username               = aws_ssm_parameter.username.value
+  password               = aws_ssm_parameter.password.value
+  parameter_group_name   = aws_db_parameter_group.main.name
+  tags                   = merge(var.tags, { Name = "${var.env}-msql-rds" })
+  skip_final_snapshot    = true
+  multi_az               = true
+  identifier             = "${var.env}-msql-rds"
+  storage_type           = "gp3"
+  db_subnet_group_name   = aws_db_subnet_group.main.name
+  vpc_security_group_ids = [aws_security_group.main.id]
+  kms_key_id             = var.kms_key
+  storage_encrypted      = true
+}
