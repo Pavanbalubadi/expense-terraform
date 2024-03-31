@@ -27,7 +27,7 @@ module"rds" {
 }
 
 module"backend"{
-
+  depends_on = [module.backend-alb,module.public-alb]
   source = "./modules/app"
   app_port = var.backend["app_port"]
   bastion_cidrs = var.bastion_cidrs
@@ -43,6 +43,7 @@ module"backend"{
 }
 
 module"frontend"{
+  depends_on = [module.backend-alb,module.public-alb]
   source = "./modules/app"
   app_port = var.frontend["app_port"]
   bastion_cidrs = var.bastion_cidrs
