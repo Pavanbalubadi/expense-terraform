@@ -75,7 +75,7 @@ module"public-alb"{
 }
 module "backend-alb" {
   source = "./modules/app"
-  app_port = var.backend-alb["app_port"]
+  app_port = var.backend-alb["lb_port"]
   bastion_cidrs = var.bastion_cidrs
   component = var.backend-alb["component"]
   env = var.env
