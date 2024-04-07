@@ -40,13 +40,12 @@ public_alb = {
   internal     = false
   lb_port      = 80
   component    = "frontend"
-  enable_https = true
+
 }
 backend_alb = {
   internal     = true
   lb_port      = 80
   component    = "backend"
-  enable_https = false
 }
 
 route53_zone_id  ="Z0884885ZSESFET2B3ZQ"
