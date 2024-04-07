@@ -136,7 +136,7 @@ resource "aws_iam_role" "main" {
             "ssm:GetParameter"
           ],
           "Resource":[
-             "arn:aws:ssm:us-east-1:955993398443:parameter/${var.component}.${var.env}.*",
+             "arn:aws:ssm:us-east-1:955993398443:parameter/${var.env}.${var.component}.*",
              "arn:aws:ssm:us-east-1:955993398443:parameter/NEW_RELIC_API_KEY",
              "arn:aws:ssm:us-east-1:955993398443:parameter/grafana_api_key",
              "arn:aws:ssm:us-east-1:955993398443:parameter/${var.env}.rds.*",
